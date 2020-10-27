@@ -1,0 +1,6 @@
+$vau( ( x y ) env
+  z <- $cond(eq?(x y)
+    (#t 10)
+    (#f 20))
+  z
+)
