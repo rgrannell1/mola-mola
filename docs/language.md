@@ -45,3 +45,17 @@ dash <- 10
 max(my-val, 0)
 ```
 
+### Lists
+
+```
+(10 20 30)
+```
+
+### Dictionary
+
+```
+{
+  "my-key" 0
+  :atom    1
+}
+```
