@@ -1,61 +1,48 @@
 
 # Language Design
 
-## Parser
-
-### Atoms
-
-Ruby-style atoms.
+## Function Syntax
 
 ```
-:my-atom
+$fn(x x)
+$fn((x) x)
+$fn((x y) x)
+$fn((x y ...rest) x)
+$fn((x 0 y {"a" 1 "b" 2} ...rest) x)
 ```
 
-### Variable Names
+## Assignment Syntax
 
+list and map destructuring, with defaults
 ```
-my-variable <- :my-atom
+(x y) <- fn()
+(x y 20) <- fn()
+{x y} <- fn()
 ```
-
-### Booleans
-
+rest parameters.
 ```
-#t
-#f
-#inert
+x <- fn()
+(x y ...rest) <- fn()
+{x y ...rest} <- fn()
 ```
-
-### Number
-
+nested destructuring.
 ```
--3.14159
-```
-
-### Variable Assignments
-
-Mola uses R-style variable assignment
-
-```
-dash <- 10
+((x y) ...rest) <- fn()
 ```
 
-### Function Calls
+## Language
 
-```
-max(my-val, 0)
-```
+Unlike most language, Mola has two types of calleable; operatives and applicatives. Applicatives are standard lambda functions, while operatives receive unevaluated arguments and an additional environment variables. In other words, applicatives are operatives that simply evaluate their arguments in their construction environment.
 
-### Lists
+Mola uses latent typing - values, not variables - have types associated with them, so type checks are performed at runtime.
 
-```
-(10 20 30)
-```
+Error handling is not through exceptions; errors are handled through multiple returns.
 
-### Dictionary
+Environments bind symbols to a value, and includes zero or more references to other environments. Depth-first search to resolve.
 
-```
-{
-  "my-key" 0
-  :atom    1
-}
-```
+Names:
+- $operative
+- is-true?
+- update-thing!
+
+[ ] describe #inert, #ignore, and #\
