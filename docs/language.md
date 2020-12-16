@@ -30,6 +30,12 @@ nested destructuring.
 ((x y) ...rest) <- fn()
 ```
 
+## Comment Syntax
+
+```
+; a single line comment
+```
+
 ## Language
 
 Unlike most language, Mola has two types of calleable; operatives and applicatives. Applicatives are standard lambda functions, while operatives receive unevaluated arguments and an additional environment variables. In other words, applicatives are operatives that simply evaluate their arguments in their construction environment.

@@ -7,5 +7,5 @@ export enum LanguageParts {
 }
 
 export interface Language {
-  [key: string]: (p:P.Language) => P.Parser<any>
+  [key: string]: (p?:P.Language) => P.Parser<any>
 }

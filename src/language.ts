@@ -1,5 +1,13 @@
 
+//import revexp from 'revexp'
 import P from 'parsimmon'
+import constants from './constants.js'
+
+const {
+  ATOM_PATTERN,
+  IDENTIFIER_PATTERN,
+  NUMBER_PATTERN
+} = constants
 
 import {
   Language, LanguageParts
@@ -8,11 +16,11 @@ import {
 export const language:Language = { }
 
 language.Atom = () => {
-  return P.regexp(/\:[a-zA-Z0-9][a-zA-Z0-9\-]*[\-\!\?a-zA-Z0-9]?/)
+  return P.regexp(ATOM_PATTERN)
 }
 
 language.Identier = () => {
-  return P.regexp(/[\$a-zA-Z0-9][a-zA-Z0-9\-]*[\-\!\?a-zA-Z0-9]?/)
+  return P.regexp(IDENTIFIER_PATTERN)
 }
 
 language.True = () => {
@@ -28,10 +36,13 @@ language.Inert = () => {
 }
 
 language.Number = () => {
-  return P.regexp(/[+-]?([0-9]*[.])?[0-9]+/).map(Number)
+  return P.regexp(NUMBER_PATTERN).map(Number)
 }
 
 language.Assignment = ref => {
+  if (ref === undefined) {
+    throw new Error('ref not defined.')
+  }
   return P.seq(
     ref.Identier.trim(P.optWhitespace),
     P.string('<-').trim(P.optWhitespace),
@@ -55,6 +66,10 @@ language.Assignment = ref => {
 }
 
 language.Call = ref => {
+  if (ref === undefined) {
+    throw new Error('ref not defined.')
+  }
+
   return P.seq(
     ref.Identier,
     P.string('('),
@@ -70,6 +85,10 @@ language.Call = ref => {
 }
 
 language.Value = ref => {
+  if (ref === undefined) {
+    throw new Error('ref not defined.')
+  }
+
   return P.alt(
     ref.True,
     ref.False,
@@ -85,6 +104,10 @@ language.Value = ref => {
 }
 
 language.List = ref => {
+  if (ref === undefined) {
+    throw new Error('ref not defined.')
+  }
+
   return P.seq(
     P.string('(').trim(P.optWhitespace),
     P.sepBy(ref.Value, P.whitespace).trim(P.optWhitespace),
@@ -93,6 +116,10 @@ language.List = ref => {
 }
 
 language.Dictionary = ref => {
+  if (ref === undefined) {
+    throw new Error('ref not defined.')
+  }
+
   return P.seq(
     P.string('{').trim(P.optWhitespace),
     P.sepBy(ref.Value, P.whitespace).trim(P.optWhitespace),
@@ -111,5 +138,9 @@ language.InterlineSpacing = () => {
 }
 
 language.Program = ref => {
+  if (ref === undefined) {
+    throw new Error('ref not defined.')
+  }
+
   return P.sepBy(ref.Value, ref.InterlineSpacing)
 }
